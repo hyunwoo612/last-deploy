@@ -56,7 +56,7 @@ const ProfileModal = ({ isOpen, onClose, onSave }) => {
     if (!email) return;
   
     try {
-      const response = await axios.post('http://124.63.142.219:25565/uploadimg', formData, {
+      const response = await axios.post('https://124.63.142.219:25565/uploadimg', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Email': email

@@ -79,7 +79,7 @@ const MyPage = () => {
     
     const fetchSchools = async (office, page) => {
       try {
-        const response = await axios.post('http://124.63.142.219:25565/getSchools', { office, page, limit: 3000 });
+        const response = await axios.post('https://124.63.142.219:25565/getSchools', { office, page, limit: 3000 });
         const formattedData = response.data.map(school => ({
           학교명: school.학교명,
           행정표준코드: school.행정표준코드
@@ -130,7 +130,7 @@ const MyPage = () => {
     
     const fetchProfileData = async (email) => {
       try {
-        const response = await axios.get('http://124.63.142.219:25565/profile', {
+        const response = await axios.get('https://124.63.142.219:25565/profile', {
           params: { email }
         });
         const data = response.data;
@@ -155,7 +155,7 @@ const MyPage = () => {
     
     const updateProfileData = async (email, Office, schoolName, schoolCode, grade, Class, num, name) => {
       try {
-        const response = await axios.post('http://124.63.142.219:25565/profile', {
+        const response = await axios.post('https://124.63.142.219:25565/profile', {
           email, Office, schoolName, schoolCode, grade, Class, num, name
         });
         setProfile(response.data); // 업데이트된 데이터를 상태에 저장
@@ -227,7 +227,7 @@ const MyPage = () => {
   
         try {
           console.log(`Fetching image for email: ${email}`); // 디버깅 용도
-          const response = await axios.get(`http://124.63.142.219:25565/getimg?email=${encodeURIComponent(email)}`, {
+          const response = await axios.get(`https://124.63.142.219:25565/getimg?email=${encodeURIComponent(email)}`, {
             responseType: 'blob' // 이미지 데이터를 blob 형태로 받음
           });
           console.log('Response:', response); // 디버깅 용도

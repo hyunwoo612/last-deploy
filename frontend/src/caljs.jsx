@@ -45,7 +45,7 @@ const Calendar = () => {
   useEffect(() => {
     const fetchSchoolSchedules = async (email) => {
       try {
-        const response = await axios.get("http://124.63.142.219:25565/schooldata", {
+        const response = await axios.get("https://124.63.142.219:25565/schooldata", {
           params: { email }
         });
         const data = response.data.SchoolSchedule[1].row;
@@ -58,7 +58,7 @@ const Calendar = () => {
   
     const fetchPersonalSchedules = async (email) => {
       try {
-        const response = await axios.get("http://124.63.142.219:25565/personaldata", {
+        const response = await axios.get("https://124.63.142.219:25565/personaldata", {
           params: { email }
         });
         const schedulesByDate = processScheduleData(response.data, true);
@@ -242,7 +242,7 @@ const Calendar = () => {
     
     try {
         setLoading(true);
-        const response = await axios.post('http://124.63.142.219:25565/upload', formData, {
+        const response = await axios.post('https://124.63.142.219:25565/upload', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
@@ -264,7 +264,7 @@ const fetchImageForDate = async (date, email) => {
         const email = getEmailFromSessionStorage();
         setLoading(true);
         const formattedDate = formatDate(date, true);
-        const response = await axios.get(`http://124.63.142.219:25565/image?date=${formattedDate}&email=${email}`);
+        const response = await axios.get(`https://124.63.142.219:25565/image?date=${formattedDate}&email=${email}`);
         setImageSrc(response.data.imagePath);
     } catch (error) {
         console.error('Error fetching image:', error.response ? error.response.data : error.message);
@@ -322,7 +322,7 @@ const fetchImageForDate = async (date, email) => {
       const email = getEmailFromSessionStorage();
       if (!email) return; // 이메일이 없으면 함수 종료
   
-      const url = `http://124.63.142.219:25565/diary?date=${date}&email=${email}`;
+      const url = `https://124.63.142.219:25565/diary?date=${date}&email=${email}`;
       console.log('Request URL:', url); // 요청 URL 로그 출력
   
       const response = await fetch(url);
@@ -342,7 +342,7 @@ const fetchImageForDate = async (date, email) => {
   
   const addDiaryEntry = async (date, content, email) => {
     try {
-      const response = await fetch('http://124.63.142.219:25565/diary/add', {
+      const response = await fetch('https://124.63.142.219:25565/diary/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -368,7 +368,7 @@ const fetchImageForDate = async (date, email) => {
       console.log('Request Body:', requestBody); // 요청 본문 로그 출력
   
       console.log('Before fetch call');
-      const response = await fetch('http://124.63.142.219:25565/diary/update', {
+      const response = await fetch('https://124.63.142.219:25565/diary/update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -427,7 +427,7 @@ const fetchImageForDate = async (date, email) => {
         {modalOpen && (
           <Modal2 onClose={closeModal}>
               <div className={styles['Diary-background']}>
-                  {imageSrc && <img width="100%" src={`http://124.63.142.219:25565${imageSrc}`} alt="Preview" className={styles.image} />}
+                  {imageSrc && <img width="100%" src={`https://124.63.142.219:25565${imageSrc}`} alt="Preview" className={styles.image} />}
                   <label htmlFor="file">
                     <div className={styles["btn-upload"]}><img src={uploadIcon} alt="upload" className={styles.uploadbtnimg}></img>업로드</div>
                   </label>

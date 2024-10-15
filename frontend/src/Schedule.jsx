@@ -44,7 +44,7 @@ const Schedule = () => {
     
           if (email) {
             try {
-              const response = await axios.get('http://124.63.142.219:25565/getimg', {
+              const response = await axios.get('https://124.63.142.219:25565/getimg', {
                 params: { email },
                 responseType: 'blob',
               });
@@ -78,7 +78,7 @@ const Schedule = () => {
           }
       
           try {
-            const response = await axios.get('http://124.63.142.219:25565/timetabledata', {
+            const response = await axios.get('https://124.63.142.219:25565/timetabledata', {
               params: { email: email }
             });
       

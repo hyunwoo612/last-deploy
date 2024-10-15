@@ -71,7 +71,7 @@ function Cal() {
     
         if (email) {
           try {
-            const response = await axios.get('http://124.63.142.219:25565/getimg', {
+            const response = await axios.get('https://124.63.142.219:25565/getimg', {
               params: { email },
               responseType: 'blob',
             });
@@ -97,7 +97,7 @@ function Cal() {
       }
     
       try {
-        const response = await axios.post('http://124.63.142.219:25565/personal-addschedule', {
+        const response = await axios.post('https://124.63.142.219:25565/personal-addschedule', {
           email: email,
           calendar_name: calendarName,
           calendar_date: calendarDate,
@@ -135,7 +135,7 @@ function Cal() {
 
     useEffect(() => {
       const email = getEmailFromSessionStorage();
-      axios.get('http://124.63.142.219:25565/personaldata', { params: { email } })
+      axios.get('https://124.63.142.219:25565/personaldata', { params: { email } })
         .then(response => {
           const formattedSchedules = response.data.map(item => {
             const dateStr = item.calendar_date;
@@ -206,7 +206,7 @@ function Cal() {
     
     const confirmDelete = async () => {
       try {
-        const response = await axios.post('http://124.63.142.219:25565/personal-delschedule', {
+        const response = await axios.post('https://124.63.142.219:25565/personal-delschedule', {
           email: getEmailFromSessionStorage(),
           calendar_name: selectedSchedule.calendar_name,
           calendar_date: selectedSchedule.original_date, // 연도 정보를 포함한 날짜로 삭제 요청

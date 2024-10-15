@@ -45,7 +45,7 @@ function Mainlin() {
     
           if (email) {
             try {
-              const response = await axios.get('http://124.63.142.219:25565/getimg', {
+              const response = await axios.get('https://124.63.142.219:25565/getimg', {
                 params: { email },
                 responseType: 'blob',
               });

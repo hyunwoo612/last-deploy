@@ -97,7 +97,7 @@ const Eat = () => {
     
           if (email) {
             try {
-              const response = await axios.get('http://124.63.142.219:25565/getimg', {
+              const response = await axios.get('https://124.63.142.219:25565/getimg', {
                 params: { email },
                 responseType: 'blob',
               });
@@ -120,7 +120,7 @@ const Eat = () => {
           try {
             const email = getEmailFromSessionStorage();
             console.log(`Fetching data for date: ${date}`); // 날짜 확인용 콘솔 로그
-            const response = await axios.get(`http://124.63.142.219:25565/mealdata?email=${email}&date=${date}`);
+            const response = await axios.get(`https://124.63.142.219:25565/mealdata?email=${email}&date=${date}`);
             console.log('Response data:', response.data); // 응답 데이터 확인용 콘솔 로그
             const data = response.data;
     

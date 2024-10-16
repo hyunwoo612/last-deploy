@@ -175,6 +175,7 @@
   height: 100%;
   object-fit: cover;
   border-radius: 70%;
+  cursor: pointer;
 }
 
 .main-profile-box {
@@ -280,6 +281,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .bottom-button {
@@ -341,8 +344,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 800px;
-  height: 280px;
+  width: 1000px;
+  height: 300px;
 }
 
 .canceltext {
@@ -450,6 +453,15 @@
   font-size: 20px;
   color: #0075FF;
   margin-left: 20px;
+  margin-right: 5px;
+}
+
+.department {
+  font-family: 'Freesentation-5Medium', sans-serif;
+  font-size: 20px;
+  color: #0075FF;
+  margin-left: 20px;
+  margin-right: 5px;
 }
 
 .school-change {
@@ -514,6 +526,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
+.updateButton:hover {
+  background-color: #01499b;
+}
 
+.school-select-button:hover {
+  background-color: #01499b;
+}

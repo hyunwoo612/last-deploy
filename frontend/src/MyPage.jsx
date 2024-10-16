@@ -81,7 +81,7 @@ const MyPage = () => {
     
     const fetchSchools = async (office, page) => {
       try {
-        const response = await axios.post('https://124.63.142.219:25565/getSchools', { office, page, limit: 3000 });
+        const response = await axios.post('https://port-0-whattoday-deploy-backend-ly7hfh5b552425a2.sel5.cloudtype.app/getSchools', { office, page, limit: 3000 });
         const formattedData = response.data.map(school => ({
           학교명: school.학교명,
           행정표준코드: school.행정표준코드
@@ -137,7 +137,7 @@ const MyPage = () => {
     
     const fetchProfileData = async (email) => {
       try {
-        const response = await axios.get('https://124.63.142.219:25565/profile', {
+        const response = await axios.get('https://port-0-whattoday-deploy-backend-ly7hfh5b552425a2.sel5.cloudtype.app/profile', {
           params: { email }
         });
         const data = response.data;
@@ -162,7 +162,7 @@ const MyPage = () => {
     
     const updateProfileData = async (email, Office, schoolName, schoolCode, grade, Class, num, name) => {
       try {
-        const response = await axios.post('https://124.63.142.219:25565/profile', {
+        const response = await axios.post('https://port-0-whattoday-deploy-backend-ly7hfh5b552425a2.sel5.cloudtype.app/profile', {
           email, Office, schoolName, schoolCode, grade, Class, num, name
         });
         setProfile(response.data); // 업데이트된 데이터를 상태에 저장
@@ -234,7 +234,7 @@ const MyPage = () => {
     
         try {
           console.log(`Fetching image for email: ${email}`); // 디버깅 용도
-          const response = await axios.get('https://124.63.142.219:25565/getimg', {
+          const response = await axios.get('https://port-0-whattoday-deploy-backend-ly7hfh5b552425a2.sel5.cloudtype.app/getimg', {
             params: { email },
           });
     
@@ -255,7 +255,7 @@ const MyPage = () => {
         const fetchDepartments = async () => {
           try {
             console.log(`Fetching departments for school ID: ${selectedSchool.value}`); // 디버깅 용도
-            const response = await axios.get(`https://124.63.142.219:25565/departments`, {
+            const response = await axios.get(`https://port-0-whattoday-deploy-backend-ly7hfh5b552425a2.sel5.cloudtype.app/departments`, {
               params: {
                 office: selectedOffice.value,
                 schoolCode: selectedSchool.value

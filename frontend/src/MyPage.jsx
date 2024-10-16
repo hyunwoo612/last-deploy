@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MyPage.module.css';
 import { useNavigate } from 'react-router-dom';
-import null_image from './asset/no-image.svg'
 import { getAuth } from 'firebase/auth';
 import axios from 'axios';
 import Select from 'react-select';
 import './MyPage.css'
 import ProfileModal from './ProfileModal';
+import null_image from './asset/logo.png'
 
 
 const MyPage = () => {
@@ -47,6 +47,8 @@ const MyPage = () => {
       const [name, setName] = useState('');
       const [selectedSchool, setSelectedSchool] = useState({ value: '', code: '' });
       const [profile, setProfile] = useState(null);
+      const [departmentOptions, setDepartmentOptions] = useState([]);
+      const [selectedDepartment, setSelectedDepartment] = useState(null);
 
 
     const handleLogout = () => {
@@ -94,6 +96,7 @@ const MyPage = () => {
         console.error('데이터를 가져오는 중 오류 발생:', error);
       }
     };
+    
     
     const handleOfficeChange = (selectedOption) => {
       setSelectedOffice(selectedOption);
@@ -223,36 +226,70 @@ const MyPage = () => {
     useEffect(() => {
       const fetchProfileImage = async () => {
         const email = getEmailFromSessionStorage();
-  
+    
         if (!email) {
           console.error('Error: Email not found in session storage.');
           return;
         }
-  
+    
         try {
           console.log(`Fetching image for email: ${email}`); // 디버깅 용도
-          const response = await axios.get(`https://124.63.142.219:25565/getimg?email=${encodeURIComponent(email)}`, {
-            responseType: 'blob' // 이미지 데이터를 blob 형태로 받음
+          const response = await axios.get('https://124.63.142.219:25565/getimg', {
+            params: { email },
           });
-          console.log('Response:', response); // 디버깅 용도
-          const imageUrl = URL.createObjectURL(response.data);
-          setProfileImage(imageUrl);
+    
+          // JSON 응답에서 imagePath를 받아와서 설정
+          const imageURL = response.data.imagePath;
+          console.log(imageURL);
+          setProfileImage(imageURL || null_image);
         } catch (error) {
           console.error('Error fetching profile image:', error);
         }
       };
     
       fetchProfileImage();
-  }, []);
+    }, []);
+
+    useEffect(() => {
+      if (selectedSchool) {
+        const fetchDepartments = async () => {
+          try {
+            console.log(`Fetching departments for school ID: ${selectedSchool.value}`); // 디버깅 용도
+            const response = await axios.get(`https://124.63.142.219:25565/departments`, {
+              params: {
+                office: selectedOffice.value,
+                schoolCode: selectedSchool.value
+              }
+            });
+            console.log('서버 응답:', response.data); // 디버깅 용도
+            const formattedData = response.data.map(department => ({
+              label: department.학과명, // label로 변경
+              value: department.행정표준코드 // value로 변경
+            }));
+            console.log('Formatted Data:', formattedData); // 디버깅 용도
+            setDepartmentOptions(formattedData);
+          } catch (error) {
+            console.error('학과 정보를 불러오는 중 오류가 발생했습니다.', error);
+          }
+        };
+    
+        fetchDepartments();
+      } else {
+        setDepartmentOptions([]);
+      }
+    }, [selectedSchool, selectedOffice]); 
+    
+    
+    const handleDepartmentChange = (selectedOption) => {
+      setSelectedDepartment(selectedOption);
+    };
+    
 
     return (
         <div>
             <header className={styles.all}>
                 <div className={styles['head-box']}>
-                    <div className={styles['head-text']}>
-                    <div className={styles["head-text-img"]}></div>
-                    <a href="/mainlin" className={styles.click}>오늘 뭐해?</a>
-                </div>
+                  <div className={styles['head-text']} onClick={() => navigate("/mainlin")}><div className={styles['head-text-img']}></div><div className={styles.click}>오늘 뭐해?</div></div>
                     <div className={styles['header-right-text-box']}>
                         <div className={styles['header-right-text']} onClick={() => navigate("/Cal")}><div className={styles.click}>캘린더</div></div>
                         <div className={styles['header-right-text']} onClick={() => navigate("/Eat")}><div className={styles.click}>급식표</div></div>
@@ -262,11 +299,13 @@ const MyPage = () => {
                 <div className={styles['header-right-image-box']}>
                   <div className={styles['header-right-profile']} onClick={() => setShowDropdown(!showDropdown)}><div className={styles.click}>
                         <div className={styles['profile-box']}>
-                        <img
-                            className={styles['main-profile-image']}
-                            src={profileImage}
-                            alt='profile_image'
-                        />
+                        {profileImage && (
+                          <img
+                              className={styles['main-profile-image']}
+                              src={profileImage || null_image}
+                              alt='profile_image'
+                          />
+                        )}
                         </div>
                       </div>
                     </div>
@@ -286,12 +325,14 @@ const MyPage = () => {
                       </div>
                   )}
                       <div className={styles['main-profile-box']}>
+                      {profileImage && (
                           <img
                             className={styles['main-profile-image']}
-                            src={profileImage}
+                            src={profileImage || null_image}
                             alt='profile_image'
                             onClick={handleOpenModal}
                           />
+                      )}
             </div>
                       <div className={styles['main-profile-name']}>
                       {profile ? (
@@ -311,7 +352,7 @@ const MyPage = () => {
                               onChange={(e) => setName(e.target.value)}
                               className={styles['main-name-print']}
                             />
-                            <button onClick={handleSubmit} className={styles.updateButton}>이름 변경</button>
+                            <div onClick={handleSubmit} className={styles.updateButton}>이름 변경</div>
                         <div className={styles['horizontal-line']}></div>
                             </div>
                         <div className={styles['main-school']}>
@@ -340,19 +381,31 @@ const MyPage = () => {
                                             value={selectedOffice}
                                             placeholder="--교육청을 선택해주세요--"
                                           />
-
                                       <label htmlFor="school" className={styles.schoolname}>학교명:</label>
-                                      <Select
-                                          name="school"
-                                          options={schoolOptions}
-                                          onChange={handleSchoolChange}
-                                          className="school"
-                                          classNamePrefix="school"
-                                          value={selectedSchool ? { value: selectedSchool.value, label: selectedSchool.value } : null}
-                                          placeholder="--학교를 선택해주세요--"
-                                          isSearchable
-                                        />
+                                          <Select
+                                              name="school"
+                                              options={schoolOptions}
+                                              onChange={handleSchoolChange}
+                                              className="school"
+                                              classNamePrefix="school"
+                                              value={selectedSchool ? { value: selectedSchool.value, label: selectedSchool.value } : null}
+                                              placeholder="--학교를 선택해주세요--"
+                                              isSearchable
+                                            />
+                                      <label htmlFor="department" className={styles.department}>학과명:</label>
+                                          <Select
+                                            name="department"
+                                            options={departmentOptions}
+                                            onChange={handleDepartmentChange}
+                                            className="department"
+                                            classNamePrefix="department"
+                                            value={selectedDepartment ? { value: selectedDepartment.value, label: selectedDepartment.value } : null}
+                                            placeholder="--학과를 선택해주세요--"
+                                            isSearchable
+                                            isDisabled={!selectedSchool}
+                                          />
                                       </div>
+                                      
                                     <div className={styles['school-info-container']}>
                                       <label htmlFor="grade" className={styles.gradename}>학년:</label>
                                       <select 

@@ -258,11 +258,11 @@ const MyPage = () => {
       if (selectedSchool) {
         const fetchDepartments = async () => {
           try {
-            console.log(`Fetching departments for school ID: ${selectedSchool.value}`); // 디버깅 용도
+            console.log(`Fetching departments for school ID: ${selectedSchool}`); // 디버깅 용도
             const response = await axios.get(`https://124.63.142.219:25565/departments`, {
               params: {
-                office: selectedOffice.value,
-                schoolCode: selectedSchool.value
+                office: selectedOffice,
+                schoolCode: selectedSchool
               }
             });
             console.log('서버 응답:', response.data); // 디버깅 용도
@@ -287,7 +287,6 @@ const MyPage = () => {
     const handleDepartmentChange = (selectedOption) => {
       setSelectedDepartment(selectedOption);
     };
-    
 
     return (
         <div>

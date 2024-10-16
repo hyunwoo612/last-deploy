@@ -48,7 +48,7 @@ const MyPage = () => {
       const [selectedSchool, setSelectedSchool] = useState({ value: '', code: '' });
       const [profile, setProfile] = useState(null);
       const [departmentOptions, setDepartmentOptions] = useState([]);
-      const [selectedDepartment, setSelectedDepartment] = useState(null);
+      const [selectedDepartment, setSelectedDepartment] = useState('');
 
 
     const handleLogout = () => {

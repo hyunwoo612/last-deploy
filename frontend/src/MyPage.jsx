@@ -261,8 +261,8 @@ const MyPage = () => {
             console.log(`Fetching departments for school ID: ${selectedSchool}`); // 디버깅 용도
             const response = await axios.get(`https://124.63.142.219:25565/departments`, {
               params: {
-                office: selectedOffice,
-                schoolCode: selectedSchool
+                office: selectedOffice.value,
+                schoolCode: selectedSchool.code
               }
             });
             console.log('서버 응답:', response.data); // 디버깅 용도

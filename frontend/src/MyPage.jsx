@@ -78,6 +78,10 @@ const MyPage = () => {
     useEffect(() => {
       console.log("선택된 학교 상태 업데이트:", selectedSchool);
     }, [selectedSchool]);
+
+    useEffect(() => {
+      console.log("선택된 학과 상태 업데이트:", selectedDepartment);
+    }, [selectedDepartment]);
     
     const fetchSchools = async (office, page) => {
       try {
@@ -399,7 +403,7 @@ const MyPage = () => {
                                             onChange={handleDepartmentChange}
                                             className="department"
                                             classNamePrefix="department"
-                                            value={selectedDepartment ? { value: selectedDepartment.value, label: selectedDepartment.value } : null}
+                                            value={selectedDepartment.value} 
                                             placeholder="--학과를 선택해주세요--"
                                             isSearchable
                                             isDisabled={!selectedSchool}
